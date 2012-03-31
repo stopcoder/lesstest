@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<script src="jquery-1.7.1.min.js"></script>
+<script src="jquery-mobile-custom.js"></script>
+ <script src="http://wdfd00306006a.dhcp.wdf.sap.corp:8081/target/target-script-min.js#anonymous" type="text/javascript"></script>
+<link rel="stylesheet" href="css/scroll.css">
+<script>
+	(function(window, document) {
+		var bScrolling = false;
+
+		var beginPageX = 0;
+		var beginPageY = 0;
+
+		var currentPageX = 0;
+		var currentPageY = 0;
+
+		//retrieved everytime when mouse is down
+		var currentOffsetX = 0;
+		var currentOffsetY = 0;
+
+		var oContentArea;
+
+		var parentHeight;
+		var selfHeight;
+		
+		
+		var getNativeEvent = function(event){
+			while ( event && typeof event.originalEvent !== "undefined" ) {
+				event = event.originalEvent;
+			}
+			return event;
+		};
+
+		var fMouseMove = function(e) {
+			console.log("Mouse Move");
+			e = getNativeEvent(e);
+			bScrolling = true;
+			
+			var event = e;
+			
+			if(e.touches){
+				console.log(e);
+				event = e.touches.item(0);
+			}
+
+			var offsetX = event.pageX - beginPageX;
+			var offsetY = event.pageY - beginPageY;
+
+			oContentArea.css("-webkit-transform",
+					getTransformYStringByOffset(offsetY));
+
+			currentPageX = event.pageX;
+			currentPageY = event.pageY;
+
+			/* 			console.log("Current Position: (" + currentPageX + " ,"
+			 + currentPageY + ")"); */
+			 
+			e.preventDefault();
+		};
+
+		var fMouseUp = function(e) {
+			console.log("Mouse Up");
+			e = getNativeEvent(e);
+			
+			bScrolling = false;
+			
+			var event = e;
+			
+			if(e.touches){
+				console.log(e);
+				event = e.changedTouches.item(0);
+			}
+
+			var offsetX = event.pageX - beginPageX;
+			var offsetY = event.pageY - beginPageY;
+
+			var iNewValue = offsetY + currentOffsetY;
+
+			if (iNewValue > 0 || iNewValue < (parentHeight-selfHeight)) {
+				var oHelper = $("#animationHelper");
+				oHelper.css("left", iNewValue);
+				oHelper.animate({
+					left : iNewValue > 0 ? 0 : parentHeight-selfHeight
+				}, {
+					step : function(now, fx) {
+						oContentArea.css("-webkit-transform",
+								getTransformYString(now));
+					},
+					duration : 500
+				});
+			}
+
+			$(document).unbind(window.isMobile?"touchmove":"mousemove", fMouseMove);
+			$(document).unbind(window.isMobile?"touchend":"mouseup", fMouseUp);
+			
+			e.preventDefault();
+		};
+
+		var fMouseDown = function(e) {
+			console.log("Mouse Down");
+			e = getNativeEvent(e);
+			var event = e;
+			
+			if(e.touches){
+				console.log(e);
+				event = e.touches.item(0);
+			}
+			
+			//event registering
+			$(document).bind(window.isMobile?"touchmove":"mousemove",fMouseMove);
+			$(document).bind(window.isMobile?"touchend":"mouseup",fMouseUp);
+			
+			//initializing values
+			oContentArea = $(".list-content");
+
+			currentPageX = event.pageX;
+			currentPageY = event.pageY;
+
+			beginPageX = event.pageX;
+			beginPageY = event.pageY;
+
+			selfHeight = oContentArea.height();
+			parentHeight = oContentArea.parent().height();
+
+			//console.log("Parent Height = " + parentHeight);
+			//console.log("Self Height = " + selfHeight);
+
+			currentOffsetY = getCurrentTranslateY();
+			
+			e.preventDefault();
+		};
+
+		var getTransformYStringByOffset = function(x) {
+			return "translate3d(0px, " + (currentOffsetY + x) + "px, 0px)";
+		}
+
+		var getTransformYString = function(x) {
+			return "translate3d(0px, " + x + "px, 0px)";
+		}
+
+		var getCurrentTranslateY = function() {
+			var sTranslate = oContentArea.css("-webkit-transform");
+			var aParts = sTranslate.split(",");
+			if (aParts.length === 6) {
+			//	console.log("right format");
+				var iValue = parseInt(aParts[5]);
+				console.log("Value = " + iValue);
+				return iValue;
+			}
+			return 0;
+		}
+
+		$(document).ready(function() {
+			
+			if(document.body.ontouchstart === undefined){
+				window.isMobile = false;
+			}else{
+				window.isMobile = true;
+			}
+			
+			console.log(window.isMobile+"     !!!!!");
+			
+			$(".list-content").bind(window.isMobile?"touchstart":"mousedown",fMouseDown);
+		});
+	}(window, document));
+</script>
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="list">
+		<div class="header">Header</div>
+		<div class="scroll-view">
+			<div style="position: absolute; width: 100%; height: 100%">
+				<!-- Table -->
+				<div class="scroll-bar-wrapper">
+					<!-- Table Row -->
+					<div>
+						<!-- Table Cell -->
+						<div></div>
+						<div>
+							<div class="scroll-bar">
+								<div class="scroll-indicator"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="list-content">
+				<ul>
+					<li>Sample Text</li>
+					<li>Sample Text</li>
+					<li>Sample Text</li>
+					<li>Sample Text</li>
+					<li>Sample Text</li>
+					<li>Sample Text</li>
+					<li>Sample Text</li>
+					<li>Sample Text</li>
+					<li>Sample Text</li>
+					<li>Sample Text</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="animationHelper"></div>
+</body>
+</html>

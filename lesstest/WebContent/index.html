@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, initial-scale=1.0; maximum-scale=1.0">
+
+<link rel="stylesheet" href="css/all.css">
+<script src="resources/sap-ui-core.js"
+                      type="text/javascript"
+                      id="sap-ui-bootstrap"
+                      data-sap-ui-libs="sap.ui.commons"
+                      data-sap-ui-theme="sap_platinum" >
+   			  </script>
+ <script src="http://wdfd00306006a.dhcp.wdf.sap.corp:8081/target/target-script-min.js#anonymous" type="text/javascript"></script>
+  
+
+<script>
+/*
+(function( win ){
+	var doc = win.document;
+
+	// If there's a hash, or addEventListener is undefined, stop here
+	if( !location.hash && win.addEventListener ){
+
+		//scroll to 1
+		window.scrollTo( 0, 1 );
+		var scrollTop = 1,
+			getScrollTop = function(){
+				return win.pageYOffset || doc.compatMode === "CSS1Compat" && doc.documentElement.scrollTop || doc.body.scrollTop || 0;
+			},
+
+			//reset to 0 on bodyready, if needed
+			bodycheck = setInterval(function(){
+				if( doc.body ){
+					clearInterval( bodycheck );
+					scrollTop = getScrollTop();
+					win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
+				}	
+			}, 15 );
+
+		win.addEventListener( "load", function(){
+			setTimeout(function(){
+				//at load, if user hasn't scrolled more than 20 or so...
+				if( getScrollTop() < 20 ){
+					//reset to hide addr bar at onload
+					win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
+				}
+			}, 0);
+		} );
+	}
+})(this);
+*/
+
+jQuery(document).ready(function(){
+	var $master = jQuery("#master");
+	var $tools = jQuery(".tools");
+	console.log($master.height());
+	$master.height($master.height()-parseInt($tools.height()));
+	console.log($master.height());
+});
+
+</script>
+<title>Mobile Prototype</title>
+</head>
+<body>
+	<header id="topbar">
+		<a class="back" href>Back</a>
+		<h1>Mobile Prototype</h1>
+		<form action="" class="search">
+			<input type="search" result="5" placeholder="Search">
+		</form>
+		<div class="tools">Tools display here</div>
+	</header>
+	
+	<nav id="master">
+		<section>
+			<header>Title Header 1</header>
+			<ul>
+				<li>
+					<a href>
+						<img alt="" src="img/icon.png">
+						<span>List Item 1</span>
+					</a>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<a href>
+						<img alt="" src="img/icon.png">
+						<span>List Item 2</span>
+					</a>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<a href>
+						<img alt="" src="img/icon.png">
+						<span>List Item 3</span>
+					</a>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<a href>
+						<img alt="" src="img/icon.png">
+						<span>List Item 4</span>
+					</a>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<a href>
+						<img alt="" src="img/icon.png">
+						<span>List Item 5</span>
+					</a>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<a href>
+						<img alt="" src="img/icon.png">
+						<span>List Item 6</span>
+					</a>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<a href>
+						<img alt="" src="img/icon.png">
+						<span>List Item 7</span>
+					</a>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<a href>
+						<img alt="" src="img/icon.png">
+						<span>List Item 8</span>
+					</a>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<a href>
+						<img alt="" src="img/icon.png">
+						<span>List Item 9</span>
+					</a>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<a href>
+						<img alt="" src="img/icon.png">
+						<span>List Item 10</span>
+					</a>
+				</li>
+			</ul>
+			<ul>
+				<li>
+					<a href>
+						<img alt="" src="img/icon.png">
+						<span>List Item 11</span>
+					</a>
+				</li>
+			</ul>
+		</section>
+	</nav>
+	<div id="detail">
+		<img src="img/android.jpg">
+	</div>
+</body>
+</html>
